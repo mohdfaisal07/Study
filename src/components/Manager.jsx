@@ -1,37 +1,51 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
-import { useRef , useEffect} from "react";
+import { useRef, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Manager = () => {
   const ref = useRef();
   const [form, setform] = useState({ site: "", username: "", password: "" });
- const [passwordArray, setpasswordArray] = useState([])
+  const [passwordArray, setpasswordArray] = useState([]);
+  const passwordRef = useRef();
 
-useEffect(() => {
- let passwords = localStorage.getItem("passwords");
- if(passwords){
-setpasswordArray(JSON.parse(passwords))
- }
-  
-}, )
+  useEffect(() => {
+    let passwords = localStorage.getItem("password");
+    if (passwords) {
+      setpasswordArray(JSON.parse(passwords));
+    }
+  }, []);
 
-
+  const copyText = (text) => {
+        toast('Copied to clipboard!', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+        navigator.clipboard.writeText(text)
+    }
 
   //Eye icon change
   const showPassword = () => {
-    alert("show password");
     if (ref.current.src.includes("icons/eyecross.png")) {
       ref.current.src = "icons/eye.png";
+      passwordRef.current.type = "password";
     } else {
+      passwordRef.current.type = "text";
       ref.current.src = "icons/eyecross.png";
     }
   };
 
   //save password
   const savePassword = () => {
-    setpasswordArray([...passwordArray, form])
-    localStorage.setItem("password", JSON.stringify([...passwordArray, form]))
-    console.log([...passwordArray, form])
+    setpasswordArray([...passwordArray, form]);
+    localStorage.setItem("password", JSON.stringify([...passwordArray, form]));
+    console.log([...passwordArray, form]);
   };
   const handleChange = (e) => {
     setform({ ...form, [e.target.name]: e.target.value });
@@ -39,13 +53,30 @@ setpasswordArray(JSON.parse(passwords))
 
   return (
     <>
-      <div className="relative h-screen w-full bg-neutral-500  flex-col justify-center">
-        <div className="branding flex justify-center items-center bg-neutral-400  w-3/4 py-6 mx-auto">
+           <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition="Bounce"
+            />
+         
+      <div className="relative min-h-[84vh] w-full bg-neutral-400  flex-col justify-center">
+        <div className="branding flex justify-center items-center bg-neutral-400  w-3/4 py-3 mx-auto">
           <div className="logo">
             <img src={logo} className="h-20 w-20" />
           </div>
           <div className="details">
-            <h1 className="text-5xl font-bold">PassWard</h1>
+            <div className="flex">
+              <h1 className="text-5xl font-bold">Pass</h1>
+              <h1 className="text-5xl font-bold text-green-700">Ward</h1>
+            </div>
             <p className="text-xl">Warden of your passwords</p>
           </div>
         </div>
@@ -70,6 +101,7 @@ setpasswordArray(JSON.parse(passwords))
             />
             <div className="relative flex-1">
               <input
+                ref={passwordRef}
                 value={form.password}
                 onChange={handleChange}
                 className=" bg-neutral-300 px-2 w-6/6 rounded-2xl border flex-1"
@@ -102,56 +134,80 @@ setpasswordArray(JSON.parse(passwords))
             Add Password
           </button>
           <div className=" bg-neutral-400  w-3/4 py-6 mx-auto">
-          <h1>Your passwords</h1>
-
-          <div class="relative overflow-x-auto">
-            <table class="w-full  text-sm text-left rtl:text-right text-black dark:text-white">
-              <thead class="text-xs font-medium text-white uppercase bg-black dark:bg-black">
-                <tr>
-                  <th scope="col" class="px-23 py-1 rounded-s-lg">
-                    Website
-                  </th>
-                  <th scope="col" class="px-2 py-1">
-                    Username
-                  </th>
-                  <th scope="col" class="px-2 py-1 rounded-e-lg">
-                    Password
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-white text-black dark:bg-neutral-300">
-                  <th
-                    scope="row"
-                    class="px-23 py-1 font-light text-gray-900 whitespace-nowrap dark:text-black"
-                  >
-                    Apple MacBook Pro 17"
-                  </th>
-                  <td class="px-2 py-1">1</td>
-                  <td class="px-2 py-1">$2999</td>
-                </tr>
-                <tr class="bg-white text-black dark:bg-neutral-300">
-                  <th
-                    scope="row"
-                    class="px-23 py-1 font-light text-gray-900 whitespace-nowrap dark:text-black"
-                  >
-                    Microsoft Surface Pro
-                  </th>
-                  <td class="px-2 py-1">1</td>
-                  <td class="px-2 py-1">$1999</td>
-                </tr>
-                <tr class="bg-white text-black dark:bg-neutral-300">
-                  <th
-                    scope="row"
-                    class="px-23 py-1 font-light text-gray-900 whitespace-nowrap dark:text-black"
-                  >
-                    Magic Mouse 2
-                  </th>
-                  <td class="px-2 py-1">1</td>
-                  <td class="px-2 py-1">$99</td>
-                </tr>
-              </tbody>
-            </table>
+            <h1 className="font-bold text-2xl py-2">Your passwords</h1>
+            {passwordArray.length === 0 && <div>No passwords to show</div>}
+            {passwordArray.length != 0 && (
+              <div className="rounded-md overflow-hidden">
+                <table className="w-full  text-sm text-left rtl:text-right text-black">
+                  <thead className="text-xs font-medium text-white uppercase bg-black ">
+                    <tr>
+                      <th scope="col" className=" py-1 text-center -s-lg">
+                        Website
+                      </th>
+                      <th scope="col" className="px-2 py-1 text-center">
+                        Username
+                      </th>
+                      <th scope="col" className="px-2 py-1 text-center ">
+                        Password
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {passwordArray.map((item, index) => {
+                      return (
+                        <tr key={index} className=" text-black bg-neutral-300">
+                          <th
+                            scope="row"
+                            className=" py-1 text-center font-medium text-black whitespace-nowrap dark:text-black"
+                          >
+                            <a href={item.site} target="_blank">
+                              {item.site}
+                            </a>
+                            <lord-icon onClick={() => { copyText(item.site) }}
+                              style={{
+                                cursor: 'Pointer',
+                                width: "253x",
+                                height: "23px",
+                                paddingTop: "9px",
+                                paddingLeft: "6px",
+                              }}
+                              src="https://cdn.lordicon.com/iykgtsbt.json"
+                              trigger="hover"
+                            ></lord-icon>
+                          </th>
+                          <td className="px-2 py-1 text-center">
+                            {item.username} <lord-icon onClick={() => { copyText(item.username) }}
+                              style={{
+                                cursor: 'Pointer',
+                                width: "23px",
+                                height: "23px",
+                                paddingTop: "9px",
+                                paddingLeft: "6px",
+                              }}
+                              src="https://cdn.lordicon.com/iykgtsbt.json"
+                              trigger="hover"
+                            ></lord-icon>
+                          </td>
+                          <td className="px-2 py-1 text-center">
+                            {item.password} <lord-icon onClick={() => { copyText(item.password) }}
+                              style={{
+                                cursor: 'Pointer',
+                               width: "23px",
+                                height: "23px",
+                                paddingTop: "9px",
+                                paddingLeft: "6px",
+                              }}
+                              src="https://cdn.lordicon.com/iykgtsbt.json"
+                              trigger="hover"
+                            ></lord-icon>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
       </div>
