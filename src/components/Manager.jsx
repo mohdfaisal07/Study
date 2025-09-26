@@ -101,6 +101,58 @@ setpasswordArray(JSON.parse(passwords))
             ></lord-icon>
             Add Password
           </button>
+          <div className=" bg-neutral-400  w-3/4 py-6 mx-auto">
+          <h1>Your passwords</h1>
+
+          <div class="relative overflow-x-auto">
+            <table class="w-full  text-sm text-left rtl:text-right text-black dark:text-white">
+              <thead class="text-xs font-medium text-white uppercase bg-black dark:bg-black">
+                <tr>
+                  <th scope="col" class="px-23 py-1 rounded-s-lg">
+                    Website
+                  </th>
+                  <th scope="col" class="px-2 py-1">
+                    Username
+                  </th>
+                  <th scope="col" class="px-2 py-1 rounded-e-lg">
+                    Password
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-white text-black dark:bg-neutral-300">
+                  <th
+                    scope="row"
+                    class="px-23 py-1 font-light text-gray-900 whitespace-nowrap dark:text-black"
+                  >
+                    Apple MacBook Pro 17"
+                  </th>
+                  <td class="px-2 py-1">1</td>
+                  <td class="px-2 py-1">$2999</td>
+                </tr>
+                <tr class="bg-white text-black dark:bg-neutral-300">
+                  <th
+                    scope="row"
+                    class="px-23 py-1 font-light text-gray-900 whitespace-nowrap dark:text-black"
+                  >
+                    Microsoft Surface Pro
+                  </th>
+                  <td class="px-2 py-1">1</td>
+                  <td class="px-2 py-1">$1999</td>
+                </tr>
+                <tr class="bg-white text-black dark:bg-neutral-300">
+                  <th
+                    scope="row"
+                    class="px-23 py-1 font-light text-gray-900 whitespace-nowrap dark:text-black"
+                  >
+                    Magic Mouse 2
+                  </th>
+                  <td class="px-2 py-1">1</td>
+                  <td class="px-2 py-1">$99</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>
