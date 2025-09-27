@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-black text-white flex flex-col justify-center items-center  w-full">
+    <div className="bg-black text-white flex flex-col justify-center bottom-0 items-center  w-full">
       <div className="logo font-bold text-white text-2xl">
         <div className="flex">
           <h1 className="">Pass</h1>
@@ -14,7 +14,7 @@ const Footer = () => {
      
        
          <img
-          className="w-7 mx-2 "
+          className="w-6 mx-2 "
           src="icons/heart.png"
           alt=""
           />
